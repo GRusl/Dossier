@@ -27,7 +27,7 @@ def global_init(db_file):
 
     from werkzeug.security import generate_password_hash, check_password_hash
 
-    from . import users
+    from . import user
     from . import jobs
 
     SqlAlchemyBase.metadata.create_all(engine)

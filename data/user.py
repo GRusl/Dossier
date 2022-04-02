@@ -11,8 +11,6 @@ class User(SqlAlchemyBase):
     __tablename__ = 'users'
 
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
-
-    login = sqlalchemy.Column(sqlalchemy.String, index=True, unique=True)
     email = sqlalchemy.Column(sqlalchemy.String, index=True, unique=True)
 
     surname = sqlalchemy.Column(sqlalchemy.String)
@@ -22,7 +20,7 @@ class User(SqlAlchemyBase):
 
     city = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
-    description = sqlalchemy.Column(sqlalchemy.Text)
+    description = sqlalchemy.Column(sqlalchemy.Text, nullable=True)
 
     hashed_password = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
