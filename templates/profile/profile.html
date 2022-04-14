@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+    <main>
+        <div class="container marketing">
+            {% for publication in publications %}
+                {% if not loop.first %}
+                    <hr class="featurette-divider">
+                {% endif %}
+
+                <div class="row featurette">
+                    <div class="col-md-7 {% if loop.index % 2 %}order-md-2{% endif %}">
+                        <h2 class="featurette-heading">{{ publication.title }}
+                            <span class="text-muted">{{ publication.modified_date }}</span></h2>
+                        <p class="lead">{{ publication.text }}</p>
+                    </div>
+                    <div class="col-md-5">
+                        <img class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
+                             width="500" height="500" alt="123"
+                             src="https://images.genius.com/81cd75edfda92704a12ae9ebb6c27da8.1000x1000x1.jpg"/>
+                    </div>
+                </div>
+
+            {% endfor %}
+
+            <hr class="featurette-divider">
+            <div class="row featurette">
+                <div class="col-md-7 order-md-2">
+                    <h2 class="featurette-heading">Oh yeah, it’s that good.
+                        <span class="text-muted">See for yourself.</span></h2>
+                    <p class="lead">Another featurette? Of course. More placeholder content here to
+                        give you an idea of how this layout would work with some
+                        actual real-world content in place.</p>
+                </div>
+                <div class="col-md-5 order-md-1">
+                    <img class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
+                         width="500" height="500" alt="123"
+                         src="https://www.imgonline.com.ua/examples/bee-on-daisy.jpg"/>
+                </div>
+            </div>
+
+            <hr class="featurette-divider">
+            <div class="row featurette">
+                <div class="col-md-7">
+                    <h2 class="featurette-heading">First featurette heading.
+                        <span class="text-muted">It’ll blow your mind.</span></h2>
+                    <p class="lead">Some great placeholder content for the first featurette here.
+                        Imagine some exciting prose here.</p>
+                </div>
+                <div class="col-md-5">
+                    <img class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
+                         width="500" height="500" alt="123"
+                         src="https://vypechka-online.ru/wp-content/uploads/2018/10/0de9e9190cb1b12c39360658f91cfe4e-561x740.jpg"/>
+                </div>
+            </div>
+        </div>
+    </main>
+{%  endblock %}

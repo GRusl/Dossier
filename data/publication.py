@@ -3,7 +3,7 @@ import datetime
 import sqlalchemy
 from sqlalchemy import orm
 
-from .db_session import SqlAlchemyBase
+from data.db_session import SqlAlchemyBase
 
 
 class Publication(SqlAlchemyBase):
@@ -16,6 +16,8 @@ class Publication(SqlAlchemyBase):
 
     img_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("images.id"), nullable=True)
     image = orm.relation('Image')
+
+    title = sqlalchemy.Column(sqlalchemy.String)
 
     text = sqlalchemy.Column(sqlalchemy.Text)
 
