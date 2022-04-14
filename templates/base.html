@@ -17,9 +17,13 @@
     <body>
         {% include "header.html" %}
 
-        {% block content %}
-            Контент)
-        {% endblock %}
+        <main>
+            <div class="container marketing">
+                {% block content %}
+                    Контент)
+                {% endblock %}
+            </div>
+        </main>
 
         {% include "footer.html" %}
     </body>
