@@ -10,10 +10,13 @@ class Image(SqlAlchemyBase):
     __tablename__ = 'images'
 
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
+
     path = sqlalchemy.Column(sqlalchemy.String, index=True, unique=True)
 
     owner = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"))
     user = orm.relation('User')
+
+    description = sqlalchemy.Column(sqlalchemy.Text)
 
     private = sqlalchemy.Column(sqlalchemy.BOOLEAN)
     modified_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)

@@ -1,13 +1,13 @@
-from data import db_session
+from settings import MainDB
 
-from data.user import User
+from flask import request, Blueprint, render_template
+
+from data import db_session
 from data.publication import Publication
 
-from forms.add_publication import AddPublicationForm
+from forms.login_publication import LoginPublicationForm
 
-from flask import Blueprint, render_template
-
-db_session.global_init('./db/test1.sqlite')
+db_session.global_init(MainDB.name)
 db_sess = db_session.create_session()
 
 profile_blueprint = Blueprint('profile', __name__)
@@ -22,8 +22,8 @@ def profile(pk):
 
 @profile_blueprint.route('/add', methods=['GET', 'POST'])
 def add_publication():
-    form = AddPublicationForm()
-    if form.validate_on_submit():
+    form = LoginPublicationForm()
+    if request.method == 'POST' and form.validate_on_submit():
         db_sess = db_session.create_session()
 
         publication = Publication()
