@@ -44,3 +44,31 @@ def delete(pk):
     else:
         abort(404)
     return redirect('/profile/1')
+
+
+@publication_blueprint.route('/edit/<int:pk>', methods=['GET', 'POST'])
+def edit(pk):
+    form = LoadingPublicationForm()
+    if request.method == "GET":
+        publication = db_sess.query(Publication).filter(Publication.id == pk).first()
+        if publication:
+            form.img_id.data = publication.img_id
+            form.title.data = publication.title
+            form.text.data = publication.text
+        else:
+            abort(404)
+
+    if form.validate_on_submit():
+        publication = db_sess.query(Publication).filter(Publication.id == pk).first()
+        if publication:
+            publication.img_id = form.img_id.data
+            publication.title = form.title.data
+            publication.text = form.text.data
+            db_sess.commit()
+            return redirect('/profile/1')
+        else:
+            abort(404)
+
+    return render_template('publication/add_publication.html',
+                           title='Редактирование публикации',
+                           form=form)

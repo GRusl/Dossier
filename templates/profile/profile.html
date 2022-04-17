@@ -21,7 +21,7 @@
 
                 {% if True or (current_user.is_authenticated and current_user == item.user) %}
                     <div>
-                        <a href="/news/{{ publication.id }}" class="btn btn-warning">
+                        <a href="/publication/edit/{{ publication.id }}" class="btn btn-warning">
                             Изменить
                         </a>
                         <a href="/publication/delete/{{ publication.id }}" class="btn btn-danger">
