@@ -9,16 +9,16 @@ from settings import MainDB
 from data.user import User
 from data.publication import Publication
 
-from apps import entrance, profile, images, gallery
+from apps import entrance, profile, images, publication
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'secret_key')
 app.config['DEBUG'] = os.environ.get('DEBUG', False)
 app.config['UPLOAD_FOLDER'] = {'png', 'jpg'}
 
+app.register_blueprint(publication.publication_blueprint, url_prefix='/publication')
 app.register_blueprint(entrance.entrance_blueprint, url_prefix='/entrance')
 app.register_blueprint(profile.profile_blueprint, url_prefix='/profile')
-app.register_blueprint(gallery.gallery_blueprint, url_prefix='/gallery')
 app.register_blueprint(images.images_blueprint, url_prefix='/images')
 
 db_session.global_init(MainDB.name)
@@ -28,6 +28,7 @@ db_sess = db_session.create_session()
 user.email = 'test@test.com'
 user.surname = 'vssfse'
 user.name = 'bhjscchsb'
+user.hashed_password = 123
 db_sess.add(user)
 
 publication = Publication()

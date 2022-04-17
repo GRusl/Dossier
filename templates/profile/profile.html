@@ -3,6 +3,11 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
+    {% if True or current_user.is_authenticated %}
+        <a href="/publication/add" class="btn btn-secondary">Добавить новость</a>
+        <br>
+    {% endif %}
+
     {% for publication in publications %}
         {% if not loop.first %}
             <hr class="featurette-divider">
@@ -13,13 +18,24 @@
                 <h2 class="featurette-heading">{{ publication.title }}
                     <span class="text-muted">{{ publication.modified_date }}</span></h2>
                 <p class="lead">{{ publication.text }}</p>
+
+                {% if True or (current_user.is_authenticated and current_user == item.user) %}
+                    <div>
+                        <a href="/news/{{ publication.id }}" class="btn btn-warning">
+                            Изменить
+                        </a>
+                        <a href="/publication/delete/{{ publication.id }}" class="btn btn-danger">
+                            Удалить
+                        </a>
+                    </div>
+                {% endif %}
             </div>
+
             <div class="col-md-5">
                 <img class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
                      width="500" height="500" alt="123"
                      src="https://images.genius.com/81cd75edfda92704a12ae9ebb6c27da8.1000x1000x1.jpg"/>
             </div>
         </div>
-
     {% endfor %}
 {%  endblock %}
