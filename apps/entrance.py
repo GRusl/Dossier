@@ -20,6 +20,7 @@ def load_user(user_id):
 
 
 @entrance_blueprint.route('/', methods=['GET', 'POST'])
+@entrance_blueprint.route('/entrance', methods=['GET', 'POST'])
 def entrance():
     form = LoginForm()
     if form.validate_on_submit():
