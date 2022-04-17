@@ -9,7 +9,7 @@ from data import db_session
 from data.user import User
 from data.image import Image
 
-from forms.login_img import LoginImgForm
+from forms.loading_img import LoadingImgForm
 
 db_session.global_init(MainDB.name)
 db_sess = db_session.create_session()
@@ -24,7 +24,7 @@ def gallery():
 
 @gallery_blueprint.route('/add', methods=['GET', 'POST'])
 def add_img():
-    form = LoginImgForm()
+    form = LoadingImgForm()
     if request.method == 'POST' and form.validate_on_submit():
         db_sess = db_session.create_session()
 
