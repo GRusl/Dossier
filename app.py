@@ -1,6 +1,7 @@
 import os
 
 from flask import Flask
+from flask_login import LoginManager
 
 from data import db_session
 
@@ -15,6 +16,9 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'secret_key')
 app.config['DEBUG'] = os.environ.get('DEBUG', False)
 app.config['UPLOAD_FOLDER'] = {'png', 'jpg'}
+
+login_manager = LoginManager()
+login_manager.init_app(app)
 
 app.register_blueprint(publication.publication_blueprint, url_prefix='/publication')
 app.register_blueprint(entrance.entrance_blueprint, url_prefix='/entrance')
@@ -47,6 +51,11 @@ db_sess.commit()'''
 
 for publication in db_sess.query(Publication).filter(Publication.author == 1):
     print(publication)
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return db_sess.query(User).get(user_id)
 
 
 @app.route('/')
