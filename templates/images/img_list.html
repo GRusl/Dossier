@@ -13,6 +13,7 @@
         <br>
     {% endif %}
 
+    {% if images %}
     {% for image in images %}
         {% if not loop.first %}
             <hr class="featurette-divider">
@@ -22,9 +23,13 @@
             <div class="col-md-7 {% if loop.index % 2 %}order-md-2{% endif %}">
                 <h2 class="featurette-heading">{{ image.user.name }}</h2>
                 <p class="lead">{{ image.description }}</p>
-            {% if image.user.id == current_user.id %}
-                -------
-            {% endif %}
+                {% if current_user.is_authenticated and image.user.id == current_user.id %}
+                    <div>
+                        <a href="/images/delete/{{ image.id }}" class="btn btn-danger">
+                            Удалить
+                        </a>
+                    </div>
+                {% endif %}
             </div>
 
             <div class="col-md-5">

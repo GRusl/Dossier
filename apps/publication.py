@@ -1,3 +1,5 @@
+from flask_login import current_user, login_required
+
 from settings import MainDB
 
 from flask import request, Blueprint, render_template, redirect, abort
@@ -14,6 +16,7 @@ publication_blueprint = Blueprint('publication', __name__)
 
 
 @publication_blueprint.route('/add', methods=['GET', 'POST'])
+@login_required
 def add():
     form = LoadingPublicationForm()
     if request.method == 'POST' and form.validate_on_submit():
@@ -28,7 +31,7 @@ def add():
 
         db_sess.commit()
 
-        return redirect('/profile/1')
+        return redirect(f'/profile/{current_user.id}')
 
     return render_template('publication/add_publication.html',
                            title='Посмотреть досье',
@@ -36,17 +39,19 @@ def add():
 
 
 @publication_blueprint.route('/delete/<int:pk>', methods=['GET', 'POST'])
+@login_required
 def delete(pk):
-    publication = db_sess.query(Publication).filter(Publication.id == pk).first()
+    publication = db_sess.query(Publication).filter(Publication.id == pk, Publication.user == current_user).first()
     if publication:
         db_sess.delete(publication)
         db_sess.commit()
     else:
         abort(404)
-    return redirect('/profile/1')
+    return redirect(f'/profile/{current_user.id}')
 
 
 @publication_blueprint.route('/edit/<int:pk>', methods=['GET', 'POST'])
+@login_required
 def edit(pk):
     form = LoadingPublicationForm()
     if request.method == "GET":
@@ -58,14 +63,14 @@ def edit(pk):
         else:
             abort(404)
 
-    if form.validate_on_submit():
+    if request.method == "POST" and form.validate_on_submit():
         publication = db_sess.query(Publication).filter(Publication.id == pk).first()
         if publication:
             publication.img_id = form.img_id.data
             publication.title = form.title.data
             publication.text = form.text.data
             db_sess.commit()
-            return redirect('/profile/1')
+            return redirect(f'/profile/{current_user.id}')
         else:
             abort(404)
 

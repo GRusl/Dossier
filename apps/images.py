@@ -1,10 +1,10 @@
 import os
 
-from flask_login import current_user
+from flask_login import current_user, login_required
 
 from settings import MainDB
 
-from flask import request
+from flask import request, abort, redirect
 from flask import Blueprint, render_template
 
 from data import db_session
@@ -27,6 +27,7 @@ def index():
 
 
 @images_blueprint.route('/my')
+@login_required
 def my_img():
     return render_template('images/img_list.html',
                            title='Список моих изображений',
@@ -35,6 +36,7 @@ def my_img():
 
 
 @images_blueprint.route('/add', methods=['GET', 'POST'])
+@login_required
 def add():
     form = LoadingImgForm()
     if request.method == 'POST' and form.validate_on_submit():
@@ -57,3 +59,16 @@ def add():
     return render_template('images/add_img.html',
                            title='Добавить изображение',
                            form=form)
+
+
+@images_blueprint.route('/delete/<int:pk>')
+@login_required
+def delete(pk):
+    image = db_sess.query(Image).filter(Image.id == pk, Image.user == current_user).first()
+    if image:
+        db_sess.delete(image)
+        db_sess.commit()
+    else:
+        abort(404)
+
+    return redirect(f'/profile/{current_user.id}')

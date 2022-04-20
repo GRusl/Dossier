@@ -19,5 +19,6 @@ def profile(pk):
 
 
 @profile_blueprint.route('/edit')
+@login_required
 def edit():
     return 'Редактировать'
