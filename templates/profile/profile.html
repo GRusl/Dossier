@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 
+
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-    {% if True or current_user.is_authenticated %}
+    {% if current_user.is_authenticated and current_user == item.user %}
         <a href="/publication/add" class="btn btn-secondary">Добавить новость</a>
         <br>
     {% endif %}
@@ -19,7 +20,7 @@
                     <span class="text-muted">{{ publication.modified_date }}</span></h2>
                 <p class="lead">{{ publication.text }}</p>
 
-                {% if True or (current_user.is_authenticated and current_user == item.user) %}
+                {% if current_user.is_authenticated and current_user == item.user %}
                     <div>
                         <a href="/publication/edit/{{ publication.id }}" class="btn btn-warning">
                             Изменить

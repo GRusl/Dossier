@@ -1,12 +1,13 @@
 import os
 
+from flask_login import current_user
+
 from settings import MainDB
 
 from flask import request
 from flask import Blueprint, render_template
 
 from data import db_session
-from data.user import User
 from data.image import Image
 
 from forms.loading_img import LoadingImgForm
@@ -19,7 +20,18 @@ images_blueprint = Blueprint('images', __name__)
 
 @images_blueprint.route('/')
 def index():
-    return 'Список изображений'
+    return render_template('images/img_list.html',
+                           title='Список изображений',
+                           images=db_sess.query(Image).filter(Image.private == False),
+                           my_btn=True)
+
+
+@images_blueprint.route('/my')
+def my_img():
+    return render_template('images/img_list.html',
+                           title='Список моих изображений',
+                           images=db_sess.query(Image).filter(Image.private == False, Image.user == current_user),
+                           my_btn=False)
 
 
 @images_blueprint.route('/add', methods=['GET', 'POST'])
@@ -32,16 +44,16 @@ def add():
                                          form.file.data.filename))
 
         img = Image()
-        img.owner = 1
+        img.owner = current_user.id
         img.path = form.file.data.filename
         img.description = form.description.data
         img.private = form.private.data
         db_sess.add(img)
 
-        # db_sess.commit()
+        db_sess.commit()
 
         return 'ok'
 
-    return render_template('gallery/add_img.html',
+    return render_template('images/add_img.html',
                            title='Добавить изображение',
                            form=form)

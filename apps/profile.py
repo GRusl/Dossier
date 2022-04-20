@@ -1,11 +1,9 @@
 from settings import MainDB
 
-from flask import request, Blueprint, render_template, redirect
+from flask import Blueprint, render_template
 
 from data import db_session
 from data.publication import Publication
-
-from forms.loading_publication import LoadingPublicationForm
 
 db_session.global_init(MainDB.name)
 db_sess = db_session.create_session()
