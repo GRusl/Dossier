@@ -1,3 +1,5 @@
+from flask_login import login_required
+
 from settings import MainDB
 
 from flask import Blueprint, render_template
