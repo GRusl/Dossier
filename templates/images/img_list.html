@@ -13,7 +13,6 @@
         <br>
     {% endif %}
 
-    {% if images %}
     {% for image in images %}
         {% if not loop.first %}
             <hr class="featurette-divider">
@@ -39,4 +38,4 @@
             </div>
         </div>
     {% endfor %}
-{%  endblock %}
+{% endblock %}

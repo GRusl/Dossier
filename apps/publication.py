@@ -20,10 +20,8 @@ publication_blueprint = Blueprint('publication', __name__)
 def add():
     form = LoadingPublicationForm()
     if request.method == 'POST' and form.validate_on_submit():
-        db_sess = db_session.create_session()
-
         publication = Publication()
-        publication.author = 1
+        publication.author = current_user.id
         publication.img_id = form.img_id.data
         publication.title = form.title.data
         publication.text = form.text.data
