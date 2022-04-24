@@ -10,4 +10,4 @@ class LoadingImgForm(FlaskForm):
     description = TextAreaField('Image Description')
 
     private = BooleanField('Приватное')
-    submit = SubmitField('Войти')
+    submit = SubmitField('Загрузить')

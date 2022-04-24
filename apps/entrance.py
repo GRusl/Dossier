@@ -5,7 +5,7 @@ from data.user import User
 
 from flask import Blueprint, redirect, render_template, request
 
-from flask_login import LoginManager, login_user, login_required, logout_user
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 
 from forms.login import LoginForm
 from forms.registration import RegisterForm
@@ -34,9 +34,9 @@ def login():
 
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
-            return redirect("/")
+            return redirect(f'/profile/{current_user.id}')
         return render_template('entrance/login.html',
-                               message="Неправильный логин или пароль",
+                               message='Неправильный логин или пароль',
                                form=form)
     return render_template('entrance/login.html', title='Авторизация', form=form)
 
@@ -45,7 +45,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return redirect("/")
+    return redirect('/entrance/login')
 
 
 @entrance_blueprint.route('/registration', methods=['GET', 'POST'])
@@ -61,7 +61,7 @@ def registration():
 
         db_sess.commit()
 
-        return redirect('/')
+        return redirect('/entrance/login')
 
     return render_template('entrance/registration.html',
                            title='Регистарция',
