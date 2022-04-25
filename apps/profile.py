@@ -5,6 +5,7 @@ from settings import MainDB
 from flask import Blueprint, render_template
 
 from data import db_session
+from data.user import User
 from data.publication import Publication
 
 db_session.global_init(MainDB.name)
@@ -17,6 +18,7 @@ profile_blueprint = Blueprint('profile', __name__)
 def profile(pk):
     return render_template('profile/profile.html',
                            title='Посмотреть досье',
+                           user=db_sess.query(User).get(pk),
                            publications=db_sess.query(Publication).filter(Publication.author == pk))
 
 

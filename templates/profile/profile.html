@@ -4,11 +4,19 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-    {% if current_user.is_authenticated %}
-        <a href="/publication/add" class="btn btn-secondary">Добавить себе новость</a>
-        <br>
+    <h1>{{ user.surname }} {{ user.name }}</h1>
+
+    {% if current_user.is_authenticated and user.id == current_user.id %}
+        <a href="/publication/add" class="btn btn-secondary">Добавить новость</a>
+        <a href="/profile/edit" class="btn btn-secondary">Редактировать профиль</a>
+        <a href="/entrance/logout" class="btn btn-danger">Выйти</a>
         <br>
     {% endif %}
+
+    Возраст: {% if user.age %}{{ user.age }}{% else %}---{% endif %}<br>
+    Город: {% if user.city %}{{ user.city }}{% else %}---{% endif %}<br>
+    Описание: {% if user.description %}{{ user.description }}{% else %}---{% endif %}<br>
+    <br>
 
     {% for publication in publications %}
         {% if not loop.first %}
@@ -49,4 +57,4 @@
             </div>
         </div>
     {% endfor %}
-{%  endblock %}
+{% endblock %}
