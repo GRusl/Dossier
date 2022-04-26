@@ -4,7 +4,7 @@ from wtforms.validators import DataRequired
 
 
 class LoadingPublicationForm(FlaskForm):
-    img_id = IntegerField('id изображения', validators=[DataRequired()])
+    img_id = IntegerField('id изображения')
 
     title = StringField('Заголовок', validators=[DataRequired()])
     text = TextAreaField('Содержание', validators=[DataRequired()])
