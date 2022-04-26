@@ -52,7 +52,7 @@ def delete(pk):
 @login_required
 def edit(pk):
     form = LoadingPublicationForm()
-    if request.method == "GET":
+    if request.method == 'GET':
         publication = db_sess.query(Publication).filter(Publication.id == pk).first()
         if publication:
             form.img_id.data = publication.img_id
@@ -61,7 +61,7 @@ def edit(pk):
         else:
             abort(404)
 
-    if request.method == "POST" and form.validate_on_submit():
+    if request.method == 'POST' and form.validate_on_submit():
         publication = db_sess.query(Publication).filter(Publication.id == pk).first()
         if publication:
             publication.img_id = form.img_id.data

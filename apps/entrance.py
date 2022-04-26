@@ -1,5 +1,3 @@
-from werkzeug.security import generate_password_hash
-
 from data import db_session
 from data.user import User
 
@@ -54,7 +52,7 @@ def registration():
     if request.method == 'POST' and form.validate_on_submit():
         user = User()
         user.email = form.email.data
-        user.hashed_password = generate_password_hash(form.password.data)
+        user.set_password(form.password.data)
         user.surname = form.surname.data
         user.name = form.name.data
         db_sess.add(user)
