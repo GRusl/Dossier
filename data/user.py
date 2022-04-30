@@ -14,6 +14,8 @@ class User(SqlAlchemyBase, UserMixin):
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     email = sqlalchemy.Column(sqlalchemy.String, index=True, unique=True)
 
+    example = sqlalchemy.Column(sqlalchemy.Boolean, default=False)
+
     surname = sqlalchemy.Column(sqlalchemy.String)
     name = sqlalchemy.Column(sqlalchemy.String)
 

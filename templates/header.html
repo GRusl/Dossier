@@ -1,8 +1,9 @@
 <header>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/">Dossier</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand" href="{{ url_for('index') }}">Dossier</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -11,7 +12,7 @@
                         <a class="nav-link active" aria-current="page" href="#">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="https://github.com/GRusl">GitHub</a>
+                        <a class="nav-link" href="https://github.com/GRusl/Dossier">GitHub</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link disabled">Dossier - досье с доступом в любой момент</a>
@@ -19,9 +20,10 @@
                 </ul>
 
                 {% if current_user.is_authenticated %}
-                    <a class="navbar-brand" href="/profile/{{ current_user.id }}">{{ current_user.email }}</a>
+                    <a class="navbar-brand"
+                       href="{{ url_for('profile.profile', pk=current_user.id) }}">{{ current_user.email }}</a>
                 {% else %}
-                    <a href="/entrance/login" class="btn btn-outline-success" type="submit">Войти</a>
+                    <a href="{{ url_for('entrance.login') }}" class="btn btn-outline-success" type="submit">Войти</a>
                 {% endif %}
             </div>
         </div>

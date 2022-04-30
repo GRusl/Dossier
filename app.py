@@ -49,9 +49,6 @@ db_sess.add(publication)
 
 db_sess.commit()'''
 
-for publication in db_sess.query(Publication).filter(Publication.author == 1):
-    print(publication)
-
 
 @login_manager.user_loader
 def load_user(user_id):
