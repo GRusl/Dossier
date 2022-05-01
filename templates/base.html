@@ -15,16 +15,21 @@
                 crossorigin="anonymous"></script>
     </head>
     <body>
-        {% include "header.html" %}
+        {% block header %}
+            {% include "header.html" %}
+        {% endblock %}
 
         <main>
+            {% block full_content %}
+                <br>
+            {% endblock %}
             <div class="container marketing">
-                {% block content %}
-                    Контент)
-                {% endblock %}
+                {% block content %}{% endblock %}
             </div>
         </main>
 
-        {% include "footer.html" %}
+        {% block footer %}
+            {% include "footer.html" %}
+        {% endblock %}
     </body>
 </html>

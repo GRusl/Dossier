@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask
+from flask import Flask, render_template
 from flask_login import LoginManager
 
 from data import db_session
@@ -8,7 +8,6 @@ from data import db_session
 from settings import MainDB
 
 from data.user import User
-from data.publication import Publication
 
 from apps import entrance, profile, images, publication
 
@@ -57,7 +56,8 @@ def load_user(user_id):
 
 @app.route('/')
 def index():
-    return 'Главная'
+    return render_template('homepage/homepage.html',
+                           title='Главная')
 
 
 if __name__ == '__main__':
