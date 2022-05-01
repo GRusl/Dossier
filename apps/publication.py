@@ -7,7 +7,7 @@ from flask import request, Blueprint, render_template, redirect, abort
 from data import db_session
 from data.publication import Publication
 
-from forms.loading_publication import LoadingPublicationForm
+from forms.uploading_publication import UploadingPublicationForm
 
 db_session.global_init(MainDB.name)
 db_sess = db_session.create_session()
@@ -18,7 +18,7 @@ publication_blueprint = Blueprint('publication', __name__)
 @publication_blueprint.route('/add', methods=['GET', 'POST'])
 @login_required
 def add():
-    form = LoadingPublicationForm()
+    form = UploadingPublicationForm()
     if request.method == 'POST' and form.validate_on_submit():
         publication = Publication()
         publication.author = current_user.id
@@ -51,7 +51,7 @@ def delete(pk):
 @publication_blueprint.route('/edit/<int:pk>', methods=['GET', 'POST'])
 @login_required
 def edit(pk):
-    form = LoadingPublicationForm()
+    form = UploadingPublicationForm()
     if request.method == 'GET':
         publication = db_sess.query(Publication).filter(Publication.id == pk).first()
         if publication:

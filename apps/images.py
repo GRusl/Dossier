@@ -10,7 +10,7 @@ from flask import Blueprint, render_template
 from data import db_session
 from data.image import Image
 
-from forms.loading_img import LoadingImgForm
+from forms.uploading_img import UploadingImgForm
 
 db_session.global_init(MainDB.name)
 db_sess = db_session.create_session()
@@ -38,7 +38,7 @@ def my_img():
 @images_blueprint.route('/add', methods=['GET', 'POST'])
 @login_required
 def add():
-    form = LoadingImgForm()
+    form = UploadingImgForm()
     if request.method == 'POST' and form.validate_on_submit():
         db_sess = db_session.create_session()
 

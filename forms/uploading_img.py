@@ -5,7 +5,7 @@ from wtforms import SubmitField, BooleanField, FileField, TextAreaField
 from wtforms.validators import DataRequired
 
 
-class LoadingImgForm(FlaskForm):
+class UploadingImgForm(FlaskForm):
     file = FileField(
         'Изображение',
         validators=[
