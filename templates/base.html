@@ -4,6 +4,8 @@
         <meta charset="UTF-8">
         <title>{% block title %}title{% endblock %}</title>
 
+        {% block head %}{% endblock %}
+
         <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
         <!-- CSS only -->

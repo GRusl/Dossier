@@ -2,6 +2,10 @@
 
 {% block title %}{{ title }}{% endblock %}
 
+{% block head %}
+    {% include "core/include/connecting_NicEdit.html" %}
+{% endblock %}
+
 {% block content %}
     <form enctype="multipart/form-data" method="post">
         {{ form.hidden_tag() }}
