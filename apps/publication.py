@@ -2,7 +2,7 @@ from flask_login import current_user, login_required
 
 from settings import MainDB
 
-from flask import request, Blueprint, render_template, redirect, abort
+from flask import request, Blueprint, render_template, redirect, abort, url_for
 
 from data import db_session
 from data.publication import Publication
@@ -29,7 +29,7 @@ def add():
 
         db_sess.commit()
 
-        return redirect(f'/profile/{current_user.id}')
+        return redirect(url_for('profile.profile', pk=current_user.id))
 
     return render_template('publication/add_publication.html',
                            title='Посмотреть досье',
@@ -45,7 +45,7 @@ def delete(pk):
         db_sess.commit()
     else:
         abort(404)
-    return redirect(f'/profile/{current_user.id}')
+    return redirect(url_for('profile.profile', pk=current_user.id))
 
 
 @publication_blueprint.route('/edit/<int:pk>', methods=['GET', 'POST'])
@@ -68,7 +68,7 @@ def edit(pk):
             publication.title = form.title.data
             publication.text = form.text.data
             db_sess.commit()
-            return redirect(f'/profile/{current_user.id}')
+            return redirect(url_for('profile.profile', pk=current_user.id))
         else:
             abort(404)
 

@@ -4,7 +4,7 @@ from forms.profile import ProfileForm
 
 from settings import MainDB
 
-from flask import Blueprint, render_template, request, abort, redirect
+from flask import Blueprint, render_template, request, abort, redirect, url_for
 
 from data import db_session
 from data.user import User
@@ -45,7 +45,7 @@ def edit():
             user.city = form.city.data
             user.description = form.description.data
             db_sess.commit()
-            return redirect(f'/profile/{current_user.id}')
+            return redirect(url_for('profile.profile', pk=current_user.id))
     else:
         abort(404)
 

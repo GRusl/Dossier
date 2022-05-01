@@ -4,7 +4,7 @@ from flask_login import current_user, login_required
 
 from settings import MainDB
 
-from flask import request, abort, redirect
+from flask import request, abort, redirect, url_for
 from flask import Blueprint, render_template
 
 from data import db_session
@@ -42,8 +42,7 @@ def add():
     if request.method == 'POST' and form.validate_on_submit():
         db_sess = db_session.create_session()
 
-        form.file.data.save(os.path.join('./media/',
-                                         form.file.data.filename))
+        form.file.data.save(os.path.join('./media/', form.file.data.filename))
 
         img = Image()
         img.owner = current_user.id
@@ -54,7 +53,7 @@ def add():
 
         db_sess.commit()
 
-        return 'ok'
+        return redirect(url_for('images.index'))
 
     return render_template('images/add_img.html',
                            title='Добавить изображение',
@@ -71,4 +70,4 @@ def delete(pk):
     else:
         abort(404)
 
-    return redirect(f'/profile/{current_user.id}')
+    return redirect(url_for('images.my_img'))
