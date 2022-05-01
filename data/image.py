@@ -23,7 +23,7 @@ class Image(SqlAlchemyBase):
     modified_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)
 
     def get_url(self):
-        return url_for('static', filename=f'img/uploaded/{self.path}')
+        return url_for('media', filename=self.path)
 
     def __repr__(self):
         return f'<Image> {self.id} {self.path}'

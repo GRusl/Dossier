@@ -42,7 +42,7 @@ def add():
     if request.method == 'POST' and form.validate_on_submit():
         db_sess = db_session.create_session()
 
-        form.file.data.save(os.path.join('./static/img/uploaded/',
+        form.file.data.save(os.path.join('./media/',
                                          form.file.data.filename))
 
         img = Image()

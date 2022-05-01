@@ -1,13 +1,12 @@
 import os
 
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, send_from_directory
 from flask_login import LoginManager
 
 from data import db_session
+from data.user import User
 
 from settings import MainDB
-
-from data.user import User
 
 from apps import entrance, profile, images, publication
 
@@ -54,6 +53,11 @@ def load_user(user_id):
     return db_sess.query(User).get(user_id)
 
 
+@app.route('/media/<filename>')
+def media(filename):
+    return send_from_directory('./media/', filename)
+
+
 @app.route('/')
 def index():
     return render_template('homepage/homepage.html',
@@ -61,5 +65,4 @@ def index():
 
 
 if __name__ == '__main__':
-    app.add_url_rule('/favicon.ico', redirect_to=url_for('static', filename='favicon.ico'))
     app.run()
