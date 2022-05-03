@@ -3,12 +3,14 @@ import os
 from flask import Flask, render_template, send_from_directory
 from flask_login import LoginManager
 
+from apps import entrance, profile, images, publication
+
 from data import db_session
 from data.user import User
 
 from settings import MainDB
 
-from apps import entrance, profile, images, publication
+from waitress import serve
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'secret_key')
@@ -25,27 +27,6 @@ app.register_blueprint(images.images_blueprint, url_prefix='/images')
 
 db_session.global_init(MainDB.name)
 db_sess = db_session.create_session()
-
-'''user = User()
-user.email = 'test@test.com'
-user.surname = 'vssfse'
-user.name = 'bhjscchsb'
-user.hashed_password = 123
-db_sess.add(user)
-
-publication = Publication()
-publication.author = 1
-publication.title = '1234'
-publication.text = 'khbs kscuhbjdcdcusbjcfvyjebvdefguywbvhg3t78fyurbh4g'
-db_sess.add(publication)
-
-publication = Publication()
-publication.author = 1
-publication.title = '45325652413653'
-publication.text = 'vdfbjhguivybjhkvhkewfguivybjhergybjhekgvyubjhfuififwhfheifhwufhwiefhueh'
-db_sess.add(publication)
-
-db_sess.commit()'''
 
 
 @login_manager.user_loader
@@ -69,4 +50,4 @@ def index():
 
 
 if __name__ == '__main__':
-    app.run()
+    serve(app, host='0.0.0.0', port=5000)
