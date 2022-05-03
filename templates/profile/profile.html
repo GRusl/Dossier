@@ -13,9 +13,9 @@
         <br>
     {% endif %}
 
-    Возраст: {% if user.age %}{{ user.age }}{% else %}---{% endif %}<br>
-    Город: {% if user.city %}{{ user.city }}{% else %}---{% endif %}<br>
-    Описание: {% if user.description %}{{ user.description }}{% else %}---{% endif %}<br>
+    Возраст: {{ user.age if user.age else "---" }}<br>
+    Город: {{ user.city if user.city else "---" }}<br>
+    Описание: {{ user.description|safe if user.description else "---" }}<br>
     <br>
 
     {% for publication in publications %}
