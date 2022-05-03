@@ -31,7 +31,7 @@ def index():
 def my_img():
     return render_template('images/img_list.html',
                            title='Список моих изображений',
-                           images=db_sess.query(Image).filter(Image.private == False, Image.user == current_user),
+                           images=db_sess.query(Image).filter(Image.user == current_user),
                            my_btn=False)
 
 

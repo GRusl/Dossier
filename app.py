@@ -42,7 +42,6 @@ def media(filename):
 @app.route('/')
 def index():
     examples = db_sess.query(User).filter(User.example == True)
-    print(examples)
 
     return render_template('homepage/homepage.html',
                            title='Главная',
