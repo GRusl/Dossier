@@ -12,14 +12,14 @@ from data.image import Image
 
 from forms.uploading_img import UploadingImgForm
 
-db_session.global_init(MainDB.name)
-db_sess = db_session.create_session()
+db_session.global_init(MainDB.name)  # Инициализация БД
+db_sess = db_session.create_session()  # Подключение к БД
 
-images_blueprint = Blueprint('images', __name__)
+images_blueprint = Blueprint('images', __name__)  # Создание приложения
 
 
 @images_blueprint.route('/')
-def index():
+def index():  # Главная страница со списком изображений
     return render_template('images/img_list.html',
                            title='Список изображений',
                            images=db_sess.query(Image).filter(Image.private == False),
@@ -28,7 +28,7 @@ def index():
 
 @images_blueprint.route('/my')
 @login_required
-def my_img():
+def my_img():  # Страница со списком изображений пользователя
     return render_template('images/img_list.html',
                            title='Список моих изображений',
                            images=db_sess.query(Image).filter(Image.user == current_user),
@@ -37,37 +37,36 @@ def my_img():
 
 @images_blueprint.route('/add', methods=['GET', 'POST'])
 @login_required
-def add():
-    form = UploadingImgForm()
-    if request.method == 'POST' and form.validate_on_submit():
-        db_sess = db_session.create_session()
+def add():  # Добавление изображения
+    form = UploadingImgForm()  # Инициализация формы
+    if request.method == 'POST' and form.validate_on_submit():  # Проверка запроса на POST
+        form.file.data.save(os.path.join('./media/', form.file.data.filename))  # Сохранение изображения
 
-        form.file.data.save(os.path.join('./media/', form.file.data.filename))
-
-        img = Image()
+        img = Image()  # Создание изображения
         img.owner = current_user.id
         img.path = form.file.data.filename
         img.description = form.description.data
         img.private = form.private.data
         db_sess.add(img)
 
-        db_sess.commit()
+        db_sess.commit()  # Применение изменений
 
-        return redirect(url_for('images.index'))
+        return redirect(url_for('images.index'))  # Перенос на общий список изображений
 
-    return render_template('images/add_img.html',
+    return render_template('images/add_img.html',  # Отображение формы
                            title='Добавить изображение',
                            form=form)
 
 
 @images_blueprint.route('/delete/<int:pk>')
 @login_required
-def delete(pk):
+def delete(pk):  # Удаление изображения
+    # Получение удаляемого обьекта
     image = db_sess.query(Image).filter(Image.id == pk, Image.user == current_user).first()
-    if image:
-        db_sess.delete(image)
-        db_sess.commit()
+    if image:  # Проверка на существование объекта
+        db_sess.delete(image)  # Удаление
+        db_sess.commit()  # Применение изменений
     else:
-        abort(404)
+        abort(404)  # Ошибка 404
 
-    return redirect(url_for('images.my_img'))
+    return redirect(url_for('images.my_img'))  # Перенос на изоражения пользователя
