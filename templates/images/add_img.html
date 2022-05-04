@@ -7,9 +7,6 @@
 {% endblock %}
 
 {% block content %}
-    {# {% import "core/include/form.html" as forms %}
-    {#    {{ forms.post(form, message) }} #}
-
     <form enctype="multipart/form-data" method="post">
         {{ form.hidden_tag() }}
         <p>
@@ -32,7 +29,8 @@
         </p>
 
         <p>{{ form.private() }} {{ form.private.label }}</p>
+
         <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
-        {{message}}
+        {{ message }}
     </form>
 {% endblock %}

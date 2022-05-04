@@ -3,6 +3,10 @@
 
 {% block title %}{{ title }}{% endblock %}
 
+{% block head %}
+    {% include "core/include/connecting_NicEdit.html" %}
+{% endblock %}
+
 {% block content %}
     <h1>Редактирование профиля</h1>
     <form action="" method="post">
@@ -61,7 +65,8 @@
                 </div>
             {% endfor %}
         </p>
+
         <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
-        <div>{{ message }}</div>
+        {{ message }}
     </form>
 {% endblock %}

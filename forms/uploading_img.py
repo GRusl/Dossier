@@ -17,4 +17,5 @@ class UploadingImgForm(FlaskForm):
     description = TextAreaField('Image Description')
 
     private = BooleanField('Приватное')
+
     submit = SubmitField('Загрузить')
