@@ -10,13 +10,13 @@ from forms.registration import RegisterForm
 
 from settings import MainDB
 
-db_session.global_init(MainDB.name)
-db_sess = db_session.create_session()
+db_session.global_init(MainDB.name)  # Инициализация БД
+db_sess = db_session.create_session()  # Подключение к БД
 
-entrance_blueprint = Blueprint('entrance', __name__)
+entrance_blueprint = Blueprint('entrance', __name__)  # Создание приложения
 
-login_manager = LoginManager()
-login_manager.init_app(entrance_blueprint, add_context_processor=False)
+login_manager = LoginManager()  # Создание объекта регистрации
+login_manager.init_app(entrance_blueprint, add_context_processor=False)  # Регистрация объекта регистрации
 
 
 @login_manager.user_loader
@@ -25,47 +25,42 @@ def load_user(user_id):
 
 
 @entrance_blueprint.route('/login', methods=['GET', 'POST'])
-def login():
-    form = LoginForm()
-    if request.method == 'POST' and form.validate_on_submit():
-        user = db_sess.query(User).filter(User.email == form.email.data).first()
+def login():  # Вход пользователя
+    form = LoginForm()  # Инициализация формы
+    if request.method == 'POST' and form.validate_on_submit():  # Проверка запроса на POST
+        user = db_sess.query(User).filter(User.email == form.email.data).first()  # Получение объекта пользователя
 
-        if user and user.check_password(form.password.data):
-            login_user(user, remember=form.remember_me.data)
-            return redirect(url_for('profile.profile', pk=current_user.id))
-        return render_template('entrance/login.html',
+        if user and user.check_password(form.password.data):  # Проверка корректности введенных данных
+            login_user(user, remember=form.remember_me.data)  # Авторизация
+            return redirect(url_for('profile.profile', pk=current_user.id))  # Переход в профиль
+        return render_template('entrance/login.html',  # Возвращение сообщения об ошибке
                                message='Неправильный логин или пароль',
                                form=form)
-    return render_template('entrance/login.html', title='Авторизация', form=form)
+    return render_template('entrance/login.html', title='Авторизация', form=form)  # Отображение формы авторизации
 
 
 @entrance_blueprint.route('/logout')
 @login_required
-def logout():
-    logout_user()
-    return redirect(url_for('entrance.login'))
+def logout():  # Выход
+    logout_user()  # Выход из аккаунта
+    return redirect(url_for('entrance.login'))  # Перенос на поле авторизации
 
 
 @entrance_blueprint.route('/registration', methods=['GET', 'POST'])
-def registration():
-    form = RegisterForm()
-    if request.method == 'POST' and form.validate_on_submit():
-        user = User()
+def registration():  # Регистрация
+    form = RegisterForm()  # Инициализация формы
+    if request.method == 'POST' and form.validate_on_submit():  # Проверка запроса на POST
+        user = User()  # Создание пользователя
         user.email = form.email.data
         user.set_password(form.password.data)
         user.surname = form.surname.data
         user.name = form.name.data
         db_sess.add(user)
 
-        db_sess.commit()
+        db_sess.commit()  # Применение изменений
 
-        return redirect(url_for('entrance.login'))
+        return redirect(url_for('entrance.login'))  # Перенос на поле авторизации
 
-    return render_template('entrance/registration.html',
+    return render_template('entrance/registration.html',  # Отображение формы
                            title='Регистарция',
                            form=form)
-
-
-@entrance_blueprint.route('/recovery')
-def recovery():
-    return 'Востановление'
