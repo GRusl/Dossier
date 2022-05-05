@@ -20,18 +20,22 @@ images_blueprint = Blueprint('images', __name__)  # Создание прило�
 
 @images_blueprint.route('/')
 def index():  # Главная страница со списком изображений
+    images = db_sess.query(Image).filter(Image.private == False).all()
+
     return render_template('images/img_list.html',
                            title='Список изображений',
-                           images=db_sess.query(Image).filter(Image.private == False),
+                           images=images,
                            my_btn=True)
 
 
 @images_blueprint.route('/my')
 @login_required
 def my_img():  # Страница со списком изображений пользователя
+    images = db_sess.query(Image).filter(Image.user == current_user).all()
+
     return render_template('images/img_list.html',
                            title='Список моих изображений',
-                           images=db_sess.query(Image).filter(Image.user == current_user),
+                           images=images,
                            my_btn=False)
 
 

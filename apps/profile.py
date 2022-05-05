@@ -18,10 +18,13 @@ profile_blueprint = Blueprint('profile', __name__)  # Создание прил�
 
 @profile_blueprint.route('/<int:pk>')
 def profile(pk):  # Отображение профиля
+    user = db_sess.query(User).get(pk)
+    publications = db_sess.query(Publication).filter(Publication.author == pk).all()
+
     return render_template('profile/profile.html',
                            title='Посмотреть досье',
-                           user=db_sess.query(User).get(pk),
-                           publications=db_sess.query(Publication).filter(Publication.author == pk))
+                           user=user,
+                           publications=publications)
 
 
 @profile_blueprint.route('/edit', methods=['GET', 'POST'])
