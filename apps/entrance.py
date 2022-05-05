@@ -49,18 +49,23 @@ def logout():  # Выход
 @entrance_blueprint.route('/registration', methods=['GET', 'POST'])
 def registration():  # Регистрация
     form = RegisterForm()  # Инициализация формы
+    message = None
     if request.method == 'POST' and form.validate_on_submit():  # Проверка запроса на POST
-        user = User()  # Создание пользователя
-        user.email = form.email.data
-        user.set_password(form.password.data)
-        user.surname = form.surname.data
-        user.name = form.name.data
-        db_sess.add(user)
+        if form.password.data == form.password_again.data:
+            user = User()  # Создание пользователя
+            user.email = form.email.data
+            user.set_password(form.password.data)
+            user.surname = form.surname.data
+            user.name = form.name.data
+            db_sess.add(user)
 
-        db_sess.commit()  # Применение изменений
+            db_sess.commit()  # Применение изменений
 
-        return redirect(url_for('entrance.login'))  # Перенос на поле авторизации
+            return redirect(url_for('entrance.login'))  # Перенос на поле авторизации
+        else:
+            message = 'Пароли не совпадают...'
 
     return render_template('entrance/registration.html',  # Отображение формы
                            title='Регистарция',
-                           form=form)
+                           form=form,
+                           message=message)
