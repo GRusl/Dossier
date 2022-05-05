@@ -32,4 +32,6 @@
             <div class="alert alert-warning" role="alert">{{ message }}</div>
         {% endif %}
     </form>
+
+    Вы тут впервые? <a href="{{ url_for('entrance.registration') }}">Создать</a> аккаунт
 {% endblock %}

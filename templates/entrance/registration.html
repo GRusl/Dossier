@@ -58,4 +58,6 @@
             <div class="alert alert-warning" role="alert">{{ message }}</div>
         {% endif %}
     </form>
+
+    Если аккаунт уже создан, то <a href="{{ url_for('entrance.login') }}">войдите</a> в него
 {% endblock %}
