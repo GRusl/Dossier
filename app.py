@@ -42,7 +42,7 @@ def media(filename):  # Обработка выдачи media
 
 @app.route('/')
 def index():  # Главная страница
-    examples = db_sess.query(User).filter(User.example == True)
+    examples = db_sess.query(User).filter(User.example == True).all()
 
     return render_template('homepage/homepage.html',
                            title='Главная',
