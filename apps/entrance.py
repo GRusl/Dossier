@@ -51,19 +51,23 @@ def registration():  # Регистрация
     form = RegisterForm()  # Инициализация формы
     message = None
     if request.method == 'POST' and form.validate_on_submit():  # Проверка запроса на POST
-        if form.password.data == form.password_again.data:
-            user = User()  # Создание пользователя
-            user.email = form.email.data
-            user.set_password(form.password.data)
-            user.surname = form.surname.data
-            user.name = form.name.data
-            db_sess.add(user)
+        user = db_sess.query(User).filter(User.email == form.email.data).first()
+        if not user:
+            if form.password.data == form.password_again.data:
+                user = User()  # Создание пользователя
+                user.email = form.email.data
+                user.set_password(form.password.data)
+                user.surname = form.surname.data
+                user.name = form.name.data
+                db_sess.add(user)
 
-            db_sess.commit()  # Применение изменений
+                db_sess.commit()  # Применение изменений
 
-            return redirect(url_for('entrance.login'))  # Перенос на поле авторизации
+                return redirect(url_for('entrance.login'))  # Перенос на поле авторизации
+            else:
+                message = 'Пароли не совпадают...'
         else:
-            message = 'Пароли не совпадают...'
+            message = 'Почта занята!'
 
     return render_template('entrance/registration.html',  # Отображение формы
                            title='Регистарция',
