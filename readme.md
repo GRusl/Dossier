@@ -1,7 +1,9 @@
 ![GitHub Repo stars](https://img.shields.io/github/stars/GRusl/Dossier)
-![GitHub repo size](https://img.shields.io/github/repo-size/GRusl/Dossier)
+![GitHub](https://img.shields.io/github/license/GRusl/Dossier)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/GRusl/Dossier)
-![GitHub top language](https://img.shields.io/github/languages/top/GRusl/Dossier)
+
+![GitHub repo size](https://img.shields.io/github/repo-size/GRusl/Dossier)
+![GitHub all releases](https://img.shields.io/github/downloads/GRusl/Dossier/total)
 
 # Dossier
 
@@ -20,14 +22,14 @@ https://github.com/YandexLyceumPP/Resume
 
 ## Содержание
 * [Содержание](#Содержание)
-* [Установка](#Установка)
+* [Установка и запуск](#Установка-и-запуск)
   * [Копирование репозитория](#Копирование-репозитория)
   * [Установка зависимостей](#Установка-зависимостей)
   * [Запуск](#Запуск)
 * [Запуску на Heroku](#Запуску-на-Heroku)
 * [ngrok](#ngrok)
 
-## Установка
+## Установка и запуск 
 
 ### Копирование репозитория
 
