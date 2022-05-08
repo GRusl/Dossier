@@ -1,3 +1,8 @@
+![GitHub Repo stars](https://img.shields.io/github/stars/GRusl/Dossier)
+![GitHub repo size](https://img.shields.io/github/repo-size/GRusl/Dossier)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/GRusl/Dossier)
+![GitHub top language](https://img.shields.io/github/languages/top/GRusl/Dossier)
+
 # Dossier
 
 [en](/readme/readme_en.md) • [tat](/readme/readme_tat.md)
