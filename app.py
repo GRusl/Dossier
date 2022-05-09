@@ -3,7 +3,7 @@ import os
 from flask import Flask, render_template, send_from_directory
 from flask_login import LoginManager
 
-from apps import entrance, profile, images, publication
+from apps import entrance, profile, images, publication, user_api
 
 from data import db_session
 from data.user import User
@@ -25,6 +25,7 @@ app.register_blueprint(publication.publication_blueprint, url_prefix='/publicati
 app.register_blueprint(entrance.entrance_blueprint, url_prefix='/entrance')  # Обработка входа на страницу
 app.register_blueprint(profile.profile_blueprint, url_prefix='/profile')  # Работа с профилем
 app.register_blueprint(images.images_blueprint, url_prefix='/images')  # Работа с изображениями
+app.register_blueprint(user_api.user_api_blueprint, url_prefix='/api/user')  # Работа с api user
 
 db_session.global_init(MainDB.name)  # Инициализация БД
 db_sess = db_session.create_session()  # Подключение к БД

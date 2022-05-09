@@ -34,7 +34,7 @@ class UsersResource(Resource):
                           'surname', 'name', 'age',
                           'city', 'description')
                 ),
-                'url': url_for('profile:profile', pk=user.id)
+                'url': url_for('profile.profile', pk=user.id)
             }
         )
 
@@ -56,4 +56,4 @@ class UsersListResource(Resource):
 
 
 api.add_resource(UsersListResource, '')
-api.add_resource(UsersResource, '<int:user_id>')
+api.add_resource(UsersResource, '/<int:user_id>')
