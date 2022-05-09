@@ -11,13 +11,14 @@ from data.user import User
 from data.publication import Publication
 
 db_session.global_init(MainDB.name)  # Инициализация БД
-db_sess = db_session.create_session()  # Подключение к БД
 
 profile_blueprint = Blueprint('profile', __name__)  # Создание приложения
 
 
 @profile_blueprint.route('/<int:pk>')
 def profile(pk):  # Отображение профиля
+    db_sess = db_session.create_session()  # Подключение к БД
+
     user = db_sess.query(User).get(pk)
     publications = db_sess.query(Publication).filter(Publication.author == pk).all()
 
@@ -30,6 +31,8 @@ def profile(pk):  # Отображение профиля
 @profile_blueprint.route('/edit', methods=['GET', 'POST'])
 @login_required
 def edit():  # Редактирование пользователя
+    db_sess = db_session.create_session()  # Подключение к БД
+
     form = ProfileForm()  # Инициализация формы
     user = db_sess.query(User).get(current_user.id)  # Получение обьекта пользователя
     if user:  # Проверка на существование пользователя

@@ -20,35 +20,35 @@ def abort_if_user_not_found(user_id):
         abort(404, message=f"User {user_id} not found")
 
 
-class UsersResource(Resource):
-    def get(self, user_id):
-        abort_if_user_not_found(user_id)
+class UsersResource(Resource):  # Работа с одним пользователем
+    def get(self, user_id):  # Получение данных пользователя
+        abort_if_user_not_found(user_id)  # Проверка на существование
 
-        db_sess = db_session.create_session()
+        db_sess = db_session.create_session()  # Подключение к БД
 
-        user = db_sess.query(User).get(user_id)
+        user = db_sess.query(User).get(user_id)  # Получение пользователя
         return jsonify(
             {
-                'data': user.to_dict(
-                    only=('id', 'email', 'example',
+                'data': user.to_dict(  # Данные пользователя
+                    only=('id', 'email', 'example',  # Передаваемые данные пользователя
                           'surname', 'name', 'age',
                           'city', 'description')
                 ),
-                'url': url_for('profile.profile', pk=user.id)
+                'profile_url': url_for('profile.profile', pk=user.id)  # Ссылка на профиль пользователя
             }
         )
 
 
-class UsersListResource(Resource):
-    def get(self):
-        db_sess = db_session.create_session()
+class UsersListResource(Resource):  # Работа со всеми пользователями
+    def get(self):  # Получение списка пользователей
+        db_sess = db_session.create_session()  # Подключение к БД
 
-        users = db_sess.query(User).all()
+        users = db_sess.query(User).all()  # Получение пользователей
         return jsonify(
             {
                 'users': [
                     item.to_dict(
-                        only=('id', 'email')
+                        only=('id', 'email')  # Передаваемые данные пользователя
                     ) for item in users
                 ]
             }

@@ -11,7 +11,6 @@ from forms.registration import RegisterForm
 from settings import MainDB
 
 db_session.global_init(MainDB.name)  # Инициализация БД
-db_sess = db_session.create_session()  # Подключение к БД
 
 entrance_blueprint = Blueprint('entrance', __name__)  # Создание приложения
 
@@ -21,6 +20,7 @@ login_manager.init_app(entrance_blueprint, add_context_processor=False)  # Ре�
 
 @login_manager.user_loader
 def load_user(user_id):
+    db_sess = db_session.create_session()  # Подключение к БД
     return db_sess.query(User).get(user_id)
 
 
@@ -28,6 +28,8 @@ def load_user(user_id):
 def login():  # Вход пользователя
     form = LoginForm()  # Инициализация формы
     if request.method == 'POST' and form.validate_on_submit():  # Проверка запроса на POST
+        db_sess = db_session.create_session()  # Подключение к БД
+
         user = db_sess.query(User).filter(User.email == form.email.data).first()  # Получение объекта пользователя
 
         if user and user.check_password(form.password.data):  # Проверка корректности введенных данных
@@ -51,6 +53,8 @@ def registration():  # Регистрация
     form = RegisterForm()  # Инициализация формы
     message = None
     if request.method == 'POST' and form.validate_on_submit():  # Проверка запроса на POST
+        db_sess = db_session.create_session()  # Подключение к БД
+
         user = db_sess.query(User).filter(User.email == form.email.data).first()
         if not user:
             if form.password.data == form.password_again.data:

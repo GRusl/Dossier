@@ -13,13 +13,14 @@ from data.image import Image
 from forms.uploading_img import UploadingImgForm
 
 db_session.global_init(MainDB.name)  # Инициализация БД
-db_sess = db_session.create_session()  # Подключение к БД
 
 images_blueprint = Blueprint('images', __name__)  # Создание приложения
 
 
 @images_blueprint.route('/')
 def index():  # Главная страница со списком изображений
+    db_sess = db_session.create_session()  # Подключение к БД
+
     images = db_sess.query(Image).filter(Image.private == False).all()
 
     return render_template('images/img_list.html',
@@ -31,6 +32,8 @@ def index():  # Главная страница со списком изобра
 @images_blueprint.route('/my')
 @login_required
 def my_img():  # Страница со списком изображений пользователя
+    db_sess = db_session.create_session()  # Подключение к БД
+
     images = db_sess.query(Image).filter(Image.user == current_user).all()
 
     return render_template('images/img_list.html',
@@ -44,6 +47,8 @@ def my_img():  # Страница со списком изображений п�
 def add():  # Добавление изображения
     form = UploadingImgForm()  # Инициализация формы
     if request.method == 'POST' and form.validate_on_submit():  # Проверка запроса на POST
+        db_sess = db_session.create_session()  # Подключение к БД
+
         form.file.data.save(os.path.join('./media/', form.file.data.filename))  # Сохранение изображения
 
         img = Image()  # Создание изображения
@@ -65,6 +70,8 @@ def add():  # Добавление изображения
 @images_blueprint.route('/delete/<int:pk>')
 @login_required
 def delete(pk):  # Удаление изображения
+    db_sess = db_session.create_session()  # Подключение к БД
+
     # Получение удаляемого обьекта
     image = db_sess.query(Image).filter(Image.id == pk, Image.user == current_user).first()
     if image:  # Проверка на существование объекта

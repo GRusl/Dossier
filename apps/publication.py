@@ -11,7 +11,6 @@ from data.image import Image
 from forms.uploading_publication import UploadingPublicationForm
 
 db_session.global_init(MainDB.name)  # Инициализация БД
-db_sess = db_session.create_session()  # Подключение к БД
 
 publication_blueprint = Blueprint('publication', __name__)  # Создание приложения
 
@@ -22,6 +21,8 @@ def add():  # Добавление публикации
     message = ''
     form = UploadingPublicationForm()  # Инициализация формы
     if request.method == 'POST' and form.validate_on_submit():  # Проверка запроса на POST
+        db_sess = db_session.create_session()  # Подключение к БД
+
         img = db_sess.query(Image).get(form.img_id.data)  # Получение обьекта изображения
         if img:  # Проверка на существование обьекта
             if not img.private or (img.private and img.owner == current_user.id):  # Проверка на доступность изображения
@@ -49,6 +50,8 @@ def add():  # Добавление публикации
 @publication_blueprint.route('/delete/<int:pk>', methods=['GET', 'POST'])
 @login_required
 def delete(pk):  # Удаление
+    db_sess = db_session.create_session()  # Подключение к БД
+
     # Получение удаляемого обьекта
     publication = db_sess.query(Publication).filter(Publication.id == pk, Publication.user == current_user).first()
     if publication:  # Проверка на существование
@@ -62,6 +65,8 @@ def delete(pk):  # Удаление
 @publication_blueprint.route('/edit/<int:pk>', methods=['GET', 'POST'])
 @login_required
 def edit(pk):  # Редактирование
+    db_sess = db_session.create_session()  # Подключение к БД
+
     form = UploadingPublicationForm()  # Инициализация формы
     publication = db_sess.query(Publication).filter(Publication.id == pk).first()
     if request.method == 'GET':  # Обработка GET запроса
