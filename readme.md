@@ -6,9 +6,6 @@
 ![GitHub all releases](https://img.shields.io/github/downloads/GRusl/Dossier/total)
 
 # Dossier
-
-[en](/readme/readme_en.md) • [tat](/readme/readme_tat.md)
-
 _Создавайте досье за пару кликов с доступом для просмотра и редактирования
 из любой точки планеты_
 
